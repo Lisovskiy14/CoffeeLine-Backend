@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: CoffeeLine
+
+  # DB
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/coffee_line_db
+    username: postgres
+    password: postgres
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+# Security
+security:
+  token:
+    secret: ${JWT_SECRET}
+    expiration-time: 3600000
