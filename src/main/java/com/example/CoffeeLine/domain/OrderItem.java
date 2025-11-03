@@ -1,10 +1,7 @@
 package com.example.CoffeeLine.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -21,6 +18,8 @@ public class OrderItem {
     private UUID id;
 
     @ManyToOne(cascade = {CascadeType.REFRESH})
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @JoinColumn(name = "order_id")
     private Order order;
 

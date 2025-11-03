@@ -1,4 +1,4 @@
-package com.example.CoffeeLine.dto.validation;
+package com.example.CoffeeLine.dto.validation.role;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

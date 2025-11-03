@@ -7,9 +7,9 @@ import com.example.CoffeeLine.dto.coffee.CoffeeUpdateRequestDto;
 import com.example.CoffeeLine.service.CategoryService;
 import com.example.CoffeeLine.service.CoffeeService;
 import com.example.CoffeeLine.service.exception.CoffeeNotFoundException;
-import com.example.CoffeeLine.service.repository.CategoryRepository;
 import com.example.CoffeeLine.service.repository.CoffeeRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +18,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CoffeeServiceImpl implements CoffeeService {
     private final CoffeeRepository coffeeRepository;
     private final CategoryService categoryService;
@@ -48,6 +49,7 @@ public class CoffeeServiceImpl implements CoffeeService {
                 .category(category)
                 .build();
 
+        log.info("Creating coffee with id: {}", coffee.getId());
         return coffeeRepository.save(coffee);
     }
 
@@ -72,11 +74,14 @@ public class CoffeeServiceImpl implements CoffeeService {
                     UUID.fromString(coffeeUpdateRequestDto.getCategoryId()));
             coffee.setCategory(category);
         }
+
+        log.info("Updating coffee with id: {}", coffee.getId());
         return coffeeRepository.save(coffee);
     }
 
     @Override
     public void deleteCoffeeById(UUID id) {
+        log.info("Deleting coffee with id: {}", id);
         coffeeRepository.deleteById(id);
     }
 }

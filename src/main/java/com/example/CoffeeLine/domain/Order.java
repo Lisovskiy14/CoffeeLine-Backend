@@ -2,10 +2,7 @@ package com.example.CoffeeLine.domain;
 
 import com.example.CoffeeLine.common.OrderStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -30,13 +27,16 @@ public class Order {
     private double totalCost;
 
     @Column(name = "status", columnDefinition = "VARCHAR", length = 20, nullable = false)
+    @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "order", cascade = {CascadeType.REMOVE, CascadeType.REFRESH})
+    @OneToMany(mappedBy = "order", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Set<OrderItem> items;
 
 }

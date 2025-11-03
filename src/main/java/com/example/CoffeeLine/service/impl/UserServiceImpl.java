@@ -9,6 +9,7 @@ import com.example.CoffeeLine.service.exception.EmailAlreadyExistsException;
 import com.example.CoffeeLine.service.exception.UserNotFoundException;
 import com.example.CoffeeLine.service.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -41,6 +43,8 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new EmailAlreadyExistsException(user.getEmail());
         }
+
+        log.info("Creating user with email: {}", user.getEmail());
         return userRepository.save(user);
     }
 
@@ -57,6 +61,8 @@ public class UserServiceImpl implements UserService {
             user.setPassword(passwordEncoder.encode(
                     userUpdateRequestDto.getPassword()));
         }
+
+        log.info("Updating user with id: {}", user.getId());
         return userRepository.save(user);
     }
 
@@ -66,6 +72,10 @@ public class UserServiceImpl implements UserService {
                 changeUserRoleRequestDto.getId()));
         user.getRoles().add(Role.valueOf(
                 changeUserRoleRequestDto.getRole()));
+
+        log.info("Adding {} to user with id: {}",
+                changeUserRoleRequestDto.getRole(),
+                changeUserRoleRequestDto.getId());
         return userRepository.save(user);
     }
 
@@ -75,11 +85,16 @@ public class UserServiceImpl implements UserService {
                 changeUserRoleRequestDto.getId()));
         user.getRoles().remove(Role.valueOf(
                 changeUserRoleRequestDto.getRole()));
+
+        log.info("Removing {} from user with id: {}",
+                changeUserRoleRequestDto.getRole(),
+                changeUserRoleRequestDto.getId());
         return userRepository.save(user);
     }
 
     @Override
     public void deleteUserById(UUID id) {
         userRepository.deleteById(id);
+        log.info("Deleting user with id: {}", id);
     }
 }

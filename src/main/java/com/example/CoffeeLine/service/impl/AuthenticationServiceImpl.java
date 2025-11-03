@@ -9,6 +9,7 @@ import com.example.CoffeeLine.service.AuthenticationService;
 import com.example.CoffeeLine.service.JwtService;
 import com.example.CoffeeLine.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +20,7 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
@@ -38,6 +40,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         userService.createUser(user);
 
+        log.info("Successfully Signed Up user");
         return jwtService.generateToken(user);
     }
 
@@ -50,6 +53,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(signInRequestDto.getEmail());
 
+        log.info("Successfully Signed In user");
         return jwtService.generateToken(userDetails);
     }
 }

@@ -6,6 +6,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
+@Slf4j
 public class JwtServiceImpl implements JwtService {
 
     @Value("${security.token.secret}")
@@ -35,9 +37,10 @@ public class JwtServiceImpl implements JwtService {
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> extraClaims = new HashMap<>();
         if (userDetails instanceof User user) {
-            extraClaims.put("id", user.getId());
             extraClaims.put("roles", user.getRoles());
         }
+
+        log.info("Generating Jwt token for user: {}", userDetails.getUsername());
         return buildToken(extraClaims, userDetails.getUsername());
     }
 
