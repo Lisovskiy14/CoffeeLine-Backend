@@ -40,6 +40,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Order> getOrdersByUserId(UUID userId) {
+        return orderRepository.getOrdersByUserId(userId);
+    }
+
+    @Override
     public Order getOrderById(UUID id) {
         Optional<Order> order = orderRepository.findById(id);
         if (order.isEmpty()) {

@@ -11,4 +11,5 @@ import java.util.UUID;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, UUID> {
     List<Order> getOrdersByStatus(OrderStatus orderStatus);
+    List<Order> getOrdersByUserId(UUID userId);
 }

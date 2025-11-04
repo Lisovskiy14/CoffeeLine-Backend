@@ -10,8 +10,8 @@ import java.util.List;
 public class RequestValidationUtil {
 
     public static ProblemDetail getProblemDetailByValidationDetails(List<ParamsValidationDetails> validationDetails) {
-        ProblemDetail problemDetail = ProblemDetail
-                .forStatusAndDetail(HttpStatus.BAD_REQUEST, "Request validation failed");
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.BAD_REQUEST, "Request validation failed");
         problemDetail.setType(URI.create("urn:problem-type:validation-error"));
         problemDetail.setTitle("Validation Error");
         problemDetail.setProperty("validationDetails", validationDetails);
